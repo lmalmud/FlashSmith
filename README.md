@@ -2,6 +2,8 @@
 
 Paste notes $\rightarrow$ generate flashcards and practice (short/MCQ). Export CSVs for Anki/Quizlet.
 
+![An example demonstration](res/example_use.png)
+
 **Tech**: FastAPI + Azure AI Foundry serverless model (gpt-35-turbo with JSON mode).
 
 - Serverless endpoint + key auth from Azure AI Foundry Model catalog.  
