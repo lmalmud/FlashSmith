@@ -52,7 +52,7 @@ flashsmith/
 ```bash
 python -m venv .venv && source .venv/bin/activate
 ```
-This line is two commands (separated by &&). The first one creates a viftual environment named ```.venv``` to isolate the project's dependencies from the global Python isntallation. The second command activates the virtual environment so that the following Python and pip commands operate within it. Note you'll have to activate your virtual environment every time you start up. For windows, this is: ```py -m venv .venv && .venv\Scripts\activate```
+This line is two commands (separated by &&). The first one creates a viftual environment named ```.venv``` to isolate the project's dependencies from the global Python isntallation. The second command activates the virtual environment so that the following Python and pip commands operate within it. Note you'll have to activate your virtual environment every time you start up. For windows, this is: ```py -m venv .venv && .venv\Scripts\activate```.
 
 ```bash
 pip install -U pip
@@ -65,7 +65,10 @@ pip install fastapi uvicorn azure-ai-inference python-dotenv pydantic jinja2
 This istalls the necessary pacages for this prokect
 - **Fast API**: a web framework for building APIs
 - **Uvicorn:** high-performance ASGI server to run FastAPI app
-- **Azure AI Inference**: to call your serverless endpoint. This is how we interact with the serverless models.
+- **openai:** official OpenAI Python SDK allows your project to interact with OpenAI's API, such as sending chat completion requests and handling responses.
+- **python-dotenv:** package loads environment variables from a ```.env``` file into your Python process, making it easier to manage configuration like API keys and endpoints without hardcoding them.
+- **pydantic:** used for data validation and settings management. It lets you define data models with type hints, ensuring that the data (e.g., API inputs/outputs) conforms to the expected structure.
+- **jinja2:** a templating engine that helps generate dynamic HTML content by rendering templates with data, which is useful for building your project's web interface.
 
 ---
 
@@ -83,8 +86,14 @@ EOF
 ```
 
 Copy to `.env` and fill in the values.
+* You can find ```AZURE_OPENAI_ENDPOINT``` by going to Overview $\rightarrow$ View all endpoints $\rightarrow$ gpt-35-turbo $\rightarrow$ Endpoint $\rightarrow$ Target URI.
 
 > **Note**: `2024-10-21` is the latest GA API version. You can also use `2024-06-01` if needed.
+
+If you are using GitHub as a version control system (you should be), you do not want this information to be publically shared. Here's how:
+1. Local development (never commit secrets)
+  * Put real values in ```.venv``` on your machine, only put placeholders in ```.env.example``
+  * Add a ```.gitignore``` entry so that ```.env``` is never tracked
 
 ---
 
