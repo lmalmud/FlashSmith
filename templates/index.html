@@ -1,19 +1,32 @@
-# FlashSmith (Azure)
+<!-- index.html -->
 
-Paste notes → generate flashcards (Q↔A + cloze) and practice (short/MCQ). Export CSVs for Anki/Quizlet.
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>FlashSmith (Azure OpenAI)</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <main>
+    <h1>FlashSmith</h1>
+    <form id="gen-form">
+      <input id="course" placeholder="Course (optional)" />
+      <input id="topic" placeholder="Topic (optional)" />
+      <textarea id="notes" placeholder="Paste notes here..." rows="12"></textarea>
+      <button type="submit">Generate</button>
+    </form>
 
-**Tech**: FastAPI + Azure AI Foundry serverless model (Phi-3.5-mini-instruct via Azure AI Inference).
+    <section id="results" hidden>
+      <h2>Flashcards</h2>
+      <div id="cards"></div>
+      <button id="dl-cards">Download Flashcards CSV</button>
 
-- Serverless endpoint + key auth from Azure AI Foundry Model catalog.  
-- Long context (128k) supports full textbook sections.
-
-## How it works
-1. Frontend posts notes/course/topic to `/api/generate`
-2. Backend calls Chat Completions with strict JSON prompt
-3. UI renders results + provides CSV downloads
-
-## Run
-```bash
-pip install -r requirements.txt
-cp .env.example .env  # fill in endpoint + key
-uvicorn app:app --reload --port 8000
+      <h2>Practice</h2>
+      <div id="practice"></div>
+      <button id="dl-practice">Download Practice CSV</button>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>
