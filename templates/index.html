@@ -1,0 +1,19 @@
+# FlashSmith (Azure)
+
+Paste notes → generate flashcards (Q↔A + cloze) and practice (short/MCQ). Export CSVs for Anki/Quizlet.
+
+**Tech**: FastAPI + Azure AI Foundry serverless model (Phi-3.5-mini-instruct via Azure AI Inference).
+
+- Serverless endpoint + key auth from Azure AI Foundry Model catalog.  
+- Long context (128k) supports full textbook sections.
+
+## How it works
+1. Frontend posts notes/course/topic to `/api/generate`
+2. Backend calls Chat Completions with strict JSON prompt
+3. UI renders results + provides CSV downloads
+
+## Run
+```bash
+pip install -r requirements.txt
+cp .env.example .env  # fill in endpoint + key
+uvicorn app:app --reload --port 8000
