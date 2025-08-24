@@ -74,10 +74,11 @@ This istalls the necessary pacages for this prokect
 
 ## 3) Environment variables (1 min)
 
-Create `.env.example`:
+### 1. Adding variables to the example *and actual* virtual environment
+Create `.env.example` in the main directory:
 
 ```bash
-cat > .env.example << 'EOF'
+cat > .venv.example << 'EOF'
 AZURE_OPENAI_ENDPOINT=https://<your-resource-name>.openai.azure.com/
 AZURE_OPENAI_API_KEY=<your-azure-openai-key>
 AZURE_OPENAI_API_VERSION=2024-10-21
@@ -85,15 +86,32 @@ AZURE_OPENAI_CHAT_DEPLOYMENT=<your-deployment-name>  # e.g., gpt35
 EOF
 ```
 
-Copy to `.env` and fill in the values.
-* You can find ```AZURE_OPENAI_ENDPOINT``` by going to Overview $\rightarrow$ View all endpoints $\rightarrow$ gpt-35-turbo $\rightarrow$ Endpoint $\rightarrow$ Target URI.
+Copy to `.venv/.env` and fill in the values. You'll need to make the ```.env``` file.
+* You can find ```AZURE_OPENAI_ENDPOINT``` by going to Overview $\rightarrow$ View all endpoints $\rightarrow$ gpt-35-turbo $\rightarrow$ Endpoint $\rightarrow$ Target URI. This is also where you'll find ```AZURE_OPENAI_API_KEY```.
+* **What is a ```.env``` file?** It is a simple text file of $\text{key}=\text{value}$ pairs for secrets and config. Our code will call ```load_dotenv()``` so these values will get loaded into ```os.environ`` at runtime in local dev.
 
 > **Note**: `2024-10-21` is the latest GA API version. You can also use `2024-06-01` if needed.
 
+### 2. Add GitHub secrets
 If you are using GitHub as a version control system (you should be), you do not want this information to be publically shared. Here's how:
 1. Local development (never commit secrets)
-  * Put real values in ```.venv``` on your machine, only put placeholders in ```.env.example``
-  * Add a ```.gitignore``` entry so that ```.env``` is never tracked
+  * Put real values in ```.venv``` on your machine, only put placeholders in ```.env.example```
+  * Add a ```.gitignore``` entry so that ```.env``` is never tracked. Nagivate to your root directory and:
+  ```bash
+  touch .gitignore
+  echo ".venv\n.venv.*" > .gitignore
+  ```
+  * The first commands makes a new file caleld ```.gitignore``` and the second line adds the directory names to be ignored to the file.
+2. GitHub Actions (build/deploy) - use GitHub Secrets
+* Store your values in Settings $\rightarrow$ Secrets and variables $\rightarrow$ Actions $\rightarrow$ New repository secret:
+  * AZURE_OPENAI_ENDPOINT
+  * AZURE_OPENAI_API_KEY
+  * AZURE_OPENAI_API_VERSION
+  * AZURE_OPENAI_CHAT_DEPLOYMENT
+These values will be encrypted in your GitHub actions workflow later. You can reference them in the GitHub Actions ```.yaml``` files by ``` ${{ secrets.AZURE_CREDENTIALS_JSON }}```
+
+### 3. App runtime on Azure App Service
+In the [Azure portal](https://portal.azure.com/): App Services $\rightarrow$ your app $\rightarrow$ Settings $\rightarrow$ Environment variables $\rightarrow$ App settings $\rightarrow$ Add each key/value (same names as above). App Service injects them as environment variables; values are hidden in the portal UI. Restart after changes.
 
 ---
 
