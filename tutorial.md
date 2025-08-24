@@ -402,6 +402,7 @@ details { border: 1px solid #ddd; border-radius: 8px; margin: .5rem 0; padding: 
 ---
 
 ## 6) Requirements
+This file contains information about all of the required Python packages in order to run the project.
 
 **`requirements.txt`**
 ```
@@ -416,6 +417,12 @@ jinja2
 ---
 
 ## 7) Run locally (2 min)
+Make sure that the application is working as intended before deployment!
+* ```grep -v '^#' .env``` reads the ```.env``` file and removes any lines that start with "#"
+* ```xargs``` convers each remaining line into arguments for the ```export``` command
+* ```exmport``` sets each $\text{key}=\text{value}$ pair as an environment variable for the current session.
+
+This lets the application run (which happens in the next line) with the configuration values defined in the ```.env``` file.
 
 ```bash
 # macOS/Linux
@@ -434,29 +441,11 @@ uvicorn app:app --reload --port 8000
 - In the App Service → **Configuration**, add your 4 env vars: `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_API_VERSION`, `AZURE_OPENAI_CHAT_DEPLOYMENT`.
 - Start with a simple startup command like: `gunicorn -w 2 -k uvicorn.workers.UvicornWorker app:app`.
 
+---
+
 ## 9) Write a README with Model Documentation & Risk Awareness
-Here is an example README for this project:
-```
-# FlashSmith (Azure)
+Check out the README of [my version of the project!](https://github.com/lmalmud/FlashSmith)
 
-Paste notes $\rightarrow$ generate flashcards and practice (short/MCQ). Export CSVs for Anki/Quizlet.
-
-**Tech**: FastAPI + Azure AI Foundry serverless model (Phi-3.5-mini-instruct via Azure AI Inference).
-
-- Serverless endpoint + key auth from Azure AI Foundry Model catalog.  
-- Long context (128k) supports full textbook sections.
-
-## How it works
-1. Frontend posts notes/course/topic to `/api/generate`
-2. Backend calls Chat Completions with strict JSON prompt
-3. UI renders results + provides CSV downloads
-
-## Run
-```bash
-pip install -r requirements.txt
-cp .env.example .env  # fill in endpoint + key
-uvicorn app:app --reload --port 8000
-```
 ---
 
 ## Troubleshooting
