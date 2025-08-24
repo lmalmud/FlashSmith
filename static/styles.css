@@ -1,0 +1,6 @@
+/* styles.css */
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 2rem; }
+main { max-width: 900px; margin: auto; }
+textarea, input { width: 100%; margin: .5rem 0; padding: .6rem; }
+button { padding: .6rem 1rem; }
+details { border: 1px solid #ddd; border-radius: 8px; margin: .5rem 0; padding: .4rem .8rem; }
